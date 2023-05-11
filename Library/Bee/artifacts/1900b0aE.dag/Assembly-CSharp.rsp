@@ -362,6 +362,7 @@
 "Assets/Just Stop Trying/Movement.cs"
 "Assets/MoveCamera.cs"
 "Assets/PlayerMovement.cs"
+"Assets/ThrowController.cs"
 -langversion:9.0
 
 /deterministic
