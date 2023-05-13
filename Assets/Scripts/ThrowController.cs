@@ -30,11 +30,11 @@ public class ThrowController : MonoBehaviour
     public LayerMask interactableObjectMask;
     RaycastHit interactableInfo;
     GameObject interactableObjectInView;
-    GameObject interactableObject;
+    public GameObject interactableObject;
     Renderer objectRenderer;
 
     bool seenAnIneractable;
-    bool holdingSomething;
+    public bool holdingSomething;
     bool setNewHeldObject;
     //----------------------------------------------------------------
     private void Start()

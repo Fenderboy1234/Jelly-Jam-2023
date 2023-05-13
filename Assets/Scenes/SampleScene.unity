@@ -143,6 +143,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4456179912831991526, guid: 2003666ef7865e044a6a2fb4610d0546, type: 3}
+      propertyPath: m_TagString
+      value: Fetchable
+      objectReference: {fileID: 0}
     - target: {fileID: 6099841430897531605, guid: 2003666ef7865e044a6a2fb4610d0546, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -208,7 +212,7 @@ GameObject:
   - component: {fileID: 365519964}
   - component: {fileID: 365519969}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: ThisIsJelly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,6 +365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a7b493444fb3249b662cb7b2b28b00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStuff: {fileID: 1278890100}
+  ballStuff: {fileID: 0}
 --- !u!1 &432390886
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,6 +891,8 @@ MonoBehaviour:
   interactableObjectMask:
     serializedVersion: 2
     m_Bits: 64
+  interactableObject: {fileID: 0}
+  holdingSomething: 0
 --- !u!1 &1450801474
 GameObject:
   m_ObjectHideFlags: 0
