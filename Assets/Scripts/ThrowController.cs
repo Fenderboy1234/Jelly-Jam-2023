@@ -32,11 +32,12 @@ public class ThrowController : MonoBehaviour
     GameObject interactableObjectInView;
     public GameObject interactableObject;
     Renderer objectRenderer;
-
+    //making sure I can do things without other things freaking out
     bool seenAnIneractable;
     bool holdingSomething;
-    public bool holdingSomethingFetchable;
     bool setNewHeldObject;
+    //this is being used by the nav agent to start the fetching mechanic
+    public bool holdingSomethingFetchable;
     //----------------------------------------------------------------
     private void Start()
     {
@@ -60,7 +61,17 @@ public class ThrowController : MonoBehaviour
 
         HoldObject();
     }
-
+    /*
+     * 
+     * 
+     * 
+     *
+     * Start by checking the value of the forcedirection property at different camera angles
+     * 
+     * 
+     * 
+     * 
+     */
     private void Throw()
     {
         readyToThrow = false;

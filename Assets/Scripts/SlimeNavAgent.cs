@@ -8,19 +8,26 @@ using UnityEngine.AI;
 public class SlimeNavAgent : MonoBehaviour
 {
     public GameObject playerStuff;
-    public SphereCollider playerInteractRadiusContainer;
     public GameObject ballStuff;
+    public GameObject foodStuff;
     public SphereCollider jellyInteractRadiusContainer;
+    public SphereCollider playerInteractRadiusContainer;
+    public SphereCollider theZone;
+
+
 
     private Vector3 randomPoint;
-    Vector3 goTo;
+    private Vector3 goTo;
 
+    //other scripts
     private ThrowController throwController;
+    private FoodChecker foodChecker;
 
     NavMeshAgent agent;
 
     bool fetchStart;
     bool carryingSomething;
+    bool foodStart;
 
     float waitASec;
 
@@ -36,16 +43,24 @@ public class SlimeNavAgent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //just gettin some components and stuff
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         throwController = playerStuff.GetComponent<ThrowController>();
-        randomPoint = RandomNavmeshLocation(20f);
+        foodChecker = jellyInteractRadiusContainer.GetComponent<FoodChecker>();
+        //Set Initial destination for jelly
+        randomPoint = RandomPointInBounds(theZone.bounds);
+        //this is used later to prevent the jelly from just 
+        //grabbing the ball out of the air when its tossed.
         waitASec = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        setState();
+        CheckForFetch();
+        CheckForFood();
+        SetState();
+
         switch (slimeState)
         {
             case State.MuckAbout:
@@ -55,14 +70,13 @@ public class SlimeNavAgent : MonoBehaviour
                 Fetch();
                 break;
             case State.Food:
+                Eat();
                 break;
             case State.Pet:
                 break;
         }
-
-        //I need to know whether the player
     }
-
+    /*
     public Vector3 RandomNavmeshLocation(float radius)
     {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
@@ -75,14 +89,39 @@ public class SlimeNavAgent : MonoBehaviour
         }
         return finalPosition;
     }
+    */
+    public Vector3 RandomPointInBounds(Bounds bounds)
+    {
+        return new Vector3(
+            Random.Range(bounds.min.x, bounds.max.x),
+            this.transform.position.y,
+            Random.Range(bounds.min.z, bounds.max.z)
+        );
+    }
+
 
     void MuckAbout()
     {
-        if (this.transform.position.x != randomPoint.x && this.transform.position.z != randomPoint.z)
+        if (Vector3.Distance(this.transform.position, randomPoint) > 2)
+        {
             agent.destination = randomPoint;
+        }
         else
-            randomPoint = RandomNavmeshLocation(20);
+        {
+            randomPoint = RandomPointInBounds(theZone.bounds);
+        }
 
+    }
+
+    void Eat()
+    {
+        if (Vector3.Distance(this.transform.position, foodStuff.transform.position) > 1)
+            agent.destination = foodStuff.transform.position;
+        else
+        {
+            foodStuff.SetActive(false);
+            foodStart = false;
+        }
     }
 
     void Fetch()
@@ -112,7 +151,6 @@ public class SlimeNavAgent : MonoBehaviour
         }
         else if(carryingSomething)
         {
-            Debug.Log("Ended");
             waitASec = 1;
             carryingSomething = false;
             fetchStart = false;
@@ -120,18 +158,33 @@ public class SlimeNavAgent : MonoBehaviour
         //If the player is still holding the ball I want to follow him, otherwise if he's released the ball and I don't have it I want to go grab it
 
     }
-
-    void setState()
+    //I need this for when the player throws the ball and the fetch state isn't actually over
+    void CheckForFetch()
     {
-        if (throwController.holdingSomethingFetchable)
+        if (throwController.holdingSomethingFetchable && theZone.bounds.Contains(this.transform.position) && theZone.bounds.Contains(playerStuff.transform.position))
         {
-            Debug.Log("Started");
             fetchStart = true;
         }
-        if (fetchStart)//throwController.interactableObject.tag == "Fetchable")
-                slimeState = State.Fetch;
+    }
+    void CheckForFood()
+    {
+        if (foodChecker.isFood == true)
+        {
+            foodStuff = foodChecker.maybeFood;
+            foodStart = true;
+        }
+    }
+
+    void SetState()
+    {
+
+        if (foodStart)
+            slimeState = State.Food;
+        else if (fetchStart && !foodStart)
+            slimeState = State.Fetch;
         else
             slimeState = State.MuckAbout;
 
     }
+   
 }
