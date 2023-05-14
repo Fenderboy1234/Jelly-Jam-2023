@@ -96,18 +96,19 @@ public class SlimeNavAgent : MonoBehaviour
         {
             waitASec -= Time.deltaTime;
         }
-        if (waitASec <= 0 && Vector3.Distance(this.transform.position, ballStuff.transform.position) > 1)
+        if (!carryingSomething && waitASec <= 0 && Vector3.Distance(this.transform.position, ballStuff.transform.position) > 1)
         {
             agent.destination = ballStuff.transform.position;
         }
         else if (waitASec <= 0)
         {
             carryingSomething = true;
-            ballStuff.transform.position = this.transform.position;
+            ballStuff.transform.position = this.transform.position + new Vector3 (0,1,0);
         }
         if (carryingSomething && Vector3.Distance(this.transform.position, playerStuff.transform.position) > 5)
         {
             agent.destination = playerInteractRadiusContainer.ClosestPoint(this.transform.position);
+            Debug.Log(agent.destination);
         }
         else if(carryingSomething)
         {
