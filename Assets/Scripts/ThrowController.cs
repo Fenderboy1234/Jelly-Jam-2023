@@ -34,7 +34,8 @@ public class ThrowController : MonoBehaviour
     Renderer objectRenderer;
 
     bool seenAnIneractable;
-    public bool holdingSomething;
+    bool holdingSomething;
+    public bool holdingSomethingFetchable;
     bool setNewHeldObject;
     //----------------------------------------------------------------
     private void Start()
@@ -65,6 +66,7 @@ public class ThrowController : MonoBehaviour
         readyToThrow = false;
         //-----------------------------------------------------
         holdingSomething = false;
+        holdingSomethingFetchable = false; 
         //--------------------------------------------------
 
         GameObject projectile = interactableObject;//Instantiate(objectThrow, attackPoint.position, cam.rotation);
@@ -72,16 +74,15 @@ public class ThrowController : MonoBehaviour
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
 
         Vector3 forceDirection = cam.transform.forward;
-
+        /*
         RaycastHit hit;
-
+        
         if (Physics.Raycast(cam.position, cam.forward, out hit, 500f))
         {
-            Debug.Log("Hit");
             forceDirection = (hit.point - attackPoint.position).normalized;
         }
-
-        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;//+ playerRb.velocity;
+        */  
+        Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;//+ playerRb.velocity;
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
 
         Invoke(nameof(ResetThrows), throwCooldown);
@@ -134,6 +135,9 @@ public class ThrowController : MonoBehaviour
         if (holdingSomething)
         {
             interactableObject.transform.position = attackPoint.transform.position;
+            interactableObject.transform.rotation = attackPoint.transform.rotation;
+            if(interactableObject.tag == "Fetchable")
+                holdingSomethingFetchable = true;
         }
         else if(interactableObjectInView = null)
         {
