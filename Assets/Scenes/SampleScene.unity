@@ -184,6 +184,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3959194562476681212, guid: 2003666ef7865e044a6a2fb4610d0546, type: 3}
+      propertyPath: m_Drag
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4456179912831991526, guid: 2003666ef7865e044a6a2fb4610d0546, type: 3}
       propertyPath: m_Name
       value: Baseball!
@@ -247,7 +251,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4456179912831991526, guid: 2003666ef7865e044a6a2fb4610d0546, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 638300426}
   m_SourcePrefab: {fileID: 100100000, guid: 2003666ef7865e044a6a2fb4610d0546, type: 3}
 --- !u!1 &365519963
 GameObject:
@@ -264,7 +271,7 @@ GameObject:
   - component: {fileID: 365519970}
   - component: {fileID: 365519964}
   - component: {fileID: 365519969}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ThisIsJelly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,7 +396,7 @@ Rigidbody:
   m_GameObject: {fileID: 365519963}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -462,6 +469,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4456179912831991526, guid: 2003666ef7865e044a6a2fb4610d0546, type: 3}
   m_PrefabInstance: {fileID: 149055154}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &638300426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638300420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca121ecef4a49df4dba42fd78388bfda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

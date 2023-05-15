@@ -41,18 +41,18 @@ public class ThrowController : MonoBehaviour
     //----------------------------------------------------------------
     private void Start()
     {
-        readyToThrow = true;
+        //readyToThrow = true;
     }
 
     private void Update()
     {
         FindPickup();
         
-        if (holdingSomething && Input.GetKeyDown(throwKey) && readyToThrow)
+        if (holdingSomething && Input.GetKeyDown(throwKey)) //&& readyToThrow)
         {
             Throw();
         }
-        if (!holdingSomething && Input.GetKeyDown(throwKey) && readyToThrow)
+        if (!holdingSomething && Input.GetKeyDown(throwKey)) //&& readyToThrow)
         {
             Pickup();
         }
@@ -74,7 +74,7 @@ public class ThrowController : MonoBehaviour
      */
     private void Throw()
     {
-        readyToThrow = false;
+        //readyToThrow = false;
         //-----------------------------------------------------
         holdingSomething = false;
         holdingSomethingFetchable = false; 
@@ -92,19 +92,20 @@ public class ThrowController : MonoBehaviour
         {
             forceDirection = (hit.point - attackPoint.position).normalized;
         }
-        */  
+        */
+        Debug.Log(forceDirection);
         Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;//+ playerRb.velocity;
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
 
-        Invoke(nameof(ResetThrows), throwCooldown);
+        //Invoke(nameof(ResetThrows), throwCooldown);
 
     }
-    
+    /*
     private void ResetThrows()
     {
         readyToThrow = true;
     }
-
+    */
     //----------------------------
     //This is for finding interactable objects
     private void FindPickup()

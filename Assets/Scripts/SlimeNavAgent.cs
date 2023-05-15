@@ -18,6 +18,7 @@ public class SlimeNavAgent : MonoBehaviour
 
     private Vector3 randomPoint;
     private Vector3 goTo;
+    private Vector3 startPoint;
 
     //other scripts
     private ThrowController throwController;
@@ -28,6 +29,8 @@ public class SlimeNavAgent : MonoBehaviour
     bool fetchStart;
     bool carryingSomething;
     bool foodStart;
+    bool playerInZone;
+    bool beingHeld;
 
     float waitASec;
 
@@ -36,7 +39,8 @@ public class SlimeNavAgent : MonoBehaviour
         MuckAbout,
         Fetch,
         Food,
-        Pet
+        Pet,
+        CommitDie
     }
 
     State slimeState;
@@ -52,6 +56,8 @@ public class SlimeNavAgent : MonoBehaviour
         //this is used later to prevent the jelly from just 
         //grabbing the ball out of the air when its tossed.
         waitASec = 1;
+
+        startPoint = this.transform.position;
     }
 
     // Update is called once per frame
@@ -59,21 +65,38 @@ public class SlimeNavAgent : MonoBehaviour
     {
         CheckForFetch();
         CheckForFood();
+        IsPlayerInZone();
         SetState();
-
-        switch (slimeState)
+        if (!beingHeld)
         {
-            case State.MuckAbout:
-                MuckAbout();
-                break;
-            case State.Fetch:
-                Fetch();
-                break;
-            case State.Food:
-                Eat();
-                break;
-            case State.Pet:
-                break;
+            /*
+            if (this.transform.position.y <= -2)
+            {
+                this.transform.position = startPoint;
+            }
+            */
+            agent.enabled = true;
+            switch (slimeState)
+            {
+                case State.MuckAbout:
+                    //MuckAbout();
+                    break;
+                case State.Fetch:
+                    Fetch();
+                    break;
+                case State.Food:
+                    Eat();
+                    break;
+                case State.Pet:
+                    break;
+                case State.CommitDie:
+                    GoCommitDie();
+                    break;
+            }
+        }
+        else
+        {
+            agent.enabled = false;
         }
     }
     /*
@@ -99,7 +122,7 @@ public class SlimeNavAgent : MonoBehaviour
         );
     }
 
-
+    //methods associated with states
     void MuckAbout()
     {
         if (Vector3.Distance(this.transform.position, randomPoint) > 2)
@@ -135,19 +158,18 @@ public class SlimeNavAgent : MonoBehaviour
         {
             waitASec -= Time.deltaTime;
         }
-        if (!carryingSomething && waitASec <= 0 && Vector3.Distance(this.transform.position, ballStuff.transform.position) > 1)
+        if (!carryingSomething && waitASec <= 0 && Vector3.Distance(this.transform.position, ballStuff.transform.position) > 2)
         {
             agent.destination = ballStuff.transform.position;
         }
         else if (waitASec <= 0)
         {
             carryingSomething = true;
-            ballStuff.transform.position = this.transform.position + new Vector3 (0,1,0);
+            ballStuff.transform.localPosition = this.transform.position + new Vector3 (0,0,1);
         }
         if (carryingSomething && Vector3.Distance(this.transform.position, playerStuff.transform.position) > 5)
         {
-            agent.destination = playerInteractRadiusContainer.ClosestPoint(this.transform.position);
-            Debug.Log(agent.destination);
+            agent.destination = playerInteractRadiusContainer.ClosestPoint(this.transform.position);    
         }
         else if(carryingSomething)
         {
@@ -158,6 +180,12 @@ public class SlimeNavAgent : MonoBehaviour
         //If the player is still holding the ball I want to follow him, otherwise if he's released the ball and I don't have it I want to go grab it
 
     }
+
+    void GoCommitDie()
+    {
+       // agent.destination = new Vector3(0, 0, 0);
+    }
+    //----------------------------------------------------------------------------------------Past this line thar be checking for things
     //I need this for when the player throws the ball and the fetch state isn't actually over
     void CheckForFetch()
     {
@@ -175,13 +203,26 @@ public class SlimeNavAgent : MonoBehaviour
         }
     }
 
+    void IsPlayerInZone()
+    {
+        if (!theZone.bounds.Contains(this.transform.position))
+            playerInZone = false;
+        else
+            playerInZone = true;
+
+    }
+
+
+    //-----------------------------------------------------------------------------------------------checking for things ends here
     void SetState()
     {
 
-        if (foodStart)
+        if (foodStart && playerInZone)
             slimeState = State.Food;
-        else if (fetchStart && !foodStart)
+        else if (fetchStart && !foodStart && playerInZone)
             slimeState = State.Fetch;
+        else if (!playerInZone)
+            slimeState = State.MuckAbout; //change this later
         else
             slimeState = State.MuckAbout;
 
