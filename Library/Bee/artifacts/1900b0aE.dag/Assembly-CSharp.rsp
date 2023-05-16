@@ -352,6 +352,7 @@
 "Assets/ExitGameButton.cs"
 "Assets/Just Stop Trying/FirstPersonCameraRotation.cs"
 "Assets/Just Stop Trying/Movement.cs"
+"Assets/MainMenu.cs"
 "Assets/Scripts/CameraController.cs"
 "Assets/Scripts/FoodChecker.cs"
 "Assets/Scripts/MoveCamera.cs"
@@ -360,7 +361,6 @@
 "Assets/Scripts/SlimeNavAgent.cs"
 "Assets/Scripts/ThrowController.cs"
 "Assets/StartGameButton.cs"
-"Assets/UIFadeText.cs"
 -langversion:9.0
 
 /deterministic
