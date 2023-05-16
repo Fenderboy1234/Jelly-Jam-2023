@@ -28,8 +28,8 @@ public class ThrowController : MonoBehaviour
     public float pickupRange;
     //I want to know what I can interact with
     public LayerMask interactableObjectMask;
-    RaycastHit interactableInfo;
-    GameObject interactableObjectInView;
+    private RaycastHit interactableInfo;
+    private GameObject interactableObjectInView;
     public GameObject interactableObject;
     Renderer objectRenderer;
     //making sure I can do things without other things freaking out
@@ -38,6 +38,7 @@ public class ThrowController : MonoBehaviour
     bool setNewHeldObject;
     //this is being used by the nav agent to start the fetching mechanic
     public bool holdingSomethingFetchable;
+    public bool holdingJelly;
     //----------------------------------------------------------------
     private void Start()
     {
@@ -52,7 +53,7 @@ public class ThrowController : MonoBehaviour
         {
             Throw();
         }
-        if (!holdingSomething && Input.GetKeyDown(throwKey)) //&& readyToThrow)
+        else if ( Input.GetKeyDown(throwKey)) //&& readyToThrow)
         {
             Pickup();
         }
@@ -78,6 +79,7 @@ public class ThrowController : MonoBehaviour
         //-----------------------------------------------------
         holdingSomething = false;
         holdingSomethingFetchable = false; 
+        holdingJelly = false;
         //--------------------------------------------------
 
         GameObject projectile = interactableObject;//Instantiate(objectThrow, attackPoint.position, cam.rotation);
@@ -85,6 +87,8 @@ public class ThrowController : MonoBehaviour
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
 
         Vector3 forceDirection = cam.transform.forward;
+
+  
         /*
         RaycastHit hit;
         
@@ -148,8 +152,12 @@ public class ThrowController : MonoBehaviour
         {
             interactableObject.transform.position = attackPoint.transform.position;
             interactableObject.transform.rotation = attackPoint.transform.rotation;
-            if(interactableObject.tag == "Fetchable")
+            if (interactableObject.tag == "Fetchable")
                 holdingSomethingFetchable = true;
+            else if (interactableObject.tag == "Jelly")
+            {
+                holdingJelly = true;
+            }
         }
         else if(interactableObjectInView = null)
         {
