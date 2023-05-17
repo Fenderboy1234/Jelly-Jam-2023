@@ -5,12 +5,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 8de405dcb43d2dc4ca75502dcb380e93, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8de405dcb43d2dc4ca75502dcb380e93, type: 3}
       propertyPath: m_LocalScale.x
@@ -73,7 +72,23 @@ PrefabInstance:
       value: Foliage_WillowPalm Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8de405dcb43d2dc4ca75502dcb380e93, type: 3}
+--- !u!1 &6463446667576201089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8de405dcb43d2dc4ca75502dcb380e93, type: 3}
+  m_PrefabInstance: {fileID: 6157458278235435728}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8179864041741175220
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6463446667576201089}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5393517119985004779, guid: 8de405dcb43d2dc4ca75502dcb380e93, type: 3}
